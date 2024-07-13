@@ -52,8 +52,6 @@ const AdminPage = () => {
         setAnswer("");
       }
 
-
-      console.log('response', response);
     } catch (error) {
       console.error(error);
       setIsSent(false);
