@@ -37,7 +37,7 @@ const AdminPage = () => {
 
       setIsLoading(true);
 
-      const { data: response } = await supabase
+      const { data: response, error } = await supabase
       .from('youtube_videos')
       .insert(data);
 
