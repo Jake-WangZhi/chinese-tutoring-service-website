@@ -105,6 +105,14 @@ const config = {
         darkTheme: darkCodeTheme,
       },
     }),
+    plugins: [
+      [
+        "docusaurus2-dotenv",
+        {
+          systemvars: true,
+        },
+      ],
+    ]
 };
 
 module.exports = config;

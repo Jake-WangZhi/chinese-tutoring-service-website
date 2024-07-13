@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 import YoutubeEmbed from "../Youtube";
 import ReactPaginate from "react-paginate";
 import { BeatLoader } from "react-spinners";
+import supabase from "../../supabaseClient";
 
 const Youtube = ({
   video_code,
@@ -69,15 +70,19 @@ function PaginatedItems({ itemsPerPage }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://vasqhjczkzaqsexezhhn.functions.supabase.co/youtube-videos"
-        );
-
-        const data = await response.json();
+        const { data, error } = await supabase
+        .from('youtube_videos')
+        .select('*')
+        .order('created_at', { ascending: false });
 
         setLatestVideo(data.shift());
         setYoutubeList(data);
         setIsLoading(false);
+
+        if (error) {
+          throw error;
+        }
+
       } catch (error) {
         console.error(error);
       }

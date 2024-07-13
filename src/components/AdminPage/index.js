@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
+import supabase from "../../supabaseClient";
 
 function extractVideoCode(url) {
   const matches = url.match(/youtu\.be\/(.+)/);
@@ -14,7 +15,7 @@ const AdminPage = () => {
   const [answer, setAnswer] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [isSent, setIsSent] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // new state variable
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsValid(false);
@@ -34,20 +35,17 @@ const AdminPage = () => {
         answer,
       };
 
-      setIsLoading(true); // set loading state to true
+      setIsLoading(true);
 
-      const response = await fetch(
-        "https://vasqhjczkzaqsexezhhn.functions.supabase.co/youtube-videos",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const { data: response } = await supabase
+      .from('youtube_videos')
+      .insert(data);
 
-      if (response.ok) {
+      if (error) {
+        throw error;
+      }
+
+      if (response) {
         setIsSent(true);
         setyoutubeUrl("");
         setTitle("");
