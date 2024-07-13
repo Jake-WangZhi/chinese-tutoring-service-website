@@ -37,21 +37,23 @@ const AdminPage = () => {
 
       setIsLoading(true);
 
-      const { data: response, error } = await supabase
+      const { error } = await supabase
       .from('youtube_videos')
       .insert(data);
 
       if (error) {
+        console.log('error',error)
         throw error;
-      }
-
-      if (response) {
+      } else {
         setIsSent(true);
         setyoutubeUrl("");
         setTitle("");
         setDescription("");
         setAnswer("");
       }
+
+
+      console.log('response', response);
     } catch (error) {
       console.error(error);
       setIsSent(false);
